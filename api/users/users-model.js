@@ -10,6 +10,8 @@ module.exports = {
     findBy,
     findUserById,
     findPlantById,
+    update,
+    remove,
 };
 
 function getUsers() {
@@ -52,10 +54,22 @@ function findUserById(user_id) {
         .first();
 }
 
-function findPlantById(plant_id) {
+function findPlantById(user_id) {
     return db("plants as p")
         .join("users as u", "u.user_id", "=", "p.user_id")
         .select("p.user_id", "p.plant_name", "u.username")
-        .where('p.plant_id', plant_id)
+        .where('p.user_id', user_id)
         .first();
+}
+
+function update(plant_id, changes) {
+    return db('plants')
+        .where({ plant_id })
+        .update(changes, '*');
+}
+
+function remove(plant_id) {
+    return db('plants')
+        .where({ plant_id })
+        .del();
 }

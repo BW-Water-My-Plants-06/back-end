@@ -10,6 +10,9 @@ exports.up = function(knex) {
             .onDelete("CASCADE")
             .onUpdate("CASCADE")
             .defaultTo(1);
+            
+        tbl.string("h2o-frequency").notNullable()
+        tbl.string("species").notNullable()
     })
     .createTable("users", tbl => {
         tbl.increments('user_id');
