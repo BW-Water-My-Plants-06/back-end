@@ -15,3 +15,5 @@
 [edit-plant] PUT -- http://localhost:3000/api/users/plants/:plant_id
 
 [delete-plant] DELETE -- http://localhost:3000/api/users/plants/:plant_id
+
+Warrning still in progress
