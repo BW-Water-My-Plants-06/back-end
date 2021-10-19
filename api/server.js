@@ -4,9 +4,9 @@ const cors = require("cors");
 
 const server = express();
 
-const authRouter = require("./auth/auth-router.js");
-const usersRouter = require("./users/users-router.js");
-const plantsRouter = require("./plants/plants-router.js");
+const authRouter = require("./auth/auth-router");
+const usersRouter = require("./users/users-router");
+const plantsRouter = require("./plants/plants-router");
 
 server.use(express.json());
 server.use(cors());
