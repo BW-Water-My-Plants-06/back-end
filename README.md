@@ -20,4 +20,4 @@
 
 [delete-plant] DELETE -- https://water-my-plants-2-electric.herokuapp.com/api/plants/:id
 
-Warrning still in progress
+
