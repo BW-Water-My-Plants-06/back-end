@@ -1,47 +1,52 @@
 const router = require("express").Router();
+const Users = require("./users-model.js");
+const bcrypt = require('bcryptjs')
 
-const Plants = require("./users-model.js");
-const {restricted, checkPlantId} = require("../auth/restricted-middelware.js");
+const { checkId, checkBody } = require("./users-middleware");
 
-router.get("/", restricted, (req, res, next) => {
-    Plants.getPlants()
-        .then(plants => {
-            res.json(plants);
+router.get('/', (req, res, next) => {
+    Users.getUsers()
+        .then(users => {
+            res.json(users)
         })
-        .catch(next);
+        .catch(next)
 })
 
-router.get("/:user_id", restricted, checkPlantId, (req, res, next) => {
-    Plants.findPlantById(req.params.user_id)
-        .then(plant => {
-            res.json(plant);
+router.get('/:id', checkId, (req, res, next) => {
+    const { id } = req.params
+    Users.findUserById(id)
+        .then(user => {
+            res.json(user)
         })
-        .catch(next);
+        .catch(next)
 })
 
-router.post("/", restricted, async (req, res, next) => {
-    try{
-    const inserted = await Plants.addPlant(req.body)
-    res.status(201).json(inserted)
-}catch(err) {
-    next(err)
-}
+router.post('/', checkBody, (req, res, next) => {
+    Users.addUser(req.body)
+        .then(user => {
+            res.status(201).json(user)
+        })
+        .catch(next)
 })
 
-router.put("/:plant_id", restricted, checkPlantId, (req, res, next) => {
-    Plants.update(req.params.plant_id, req.body)
-        .then(plant => {
-            res.status(200).json(plant);
+router.put('/:id', checkId, checkBody, (req, res, next) => {
+    const { id } = req.params
+    const { username, password, phone_number } = req.body
+    const hash = bcrypt.hashSync(password, 8)
+    Users.editUser(id, { username, password: hash, phone_number })
+        .then(user => {
+            res.status(200).json(user)
         })
-        .catch(next);
+        .catch(next)
 })
 
-router.delete("/:plant_id", restricted, checkPlantId, (req, res, next) => {
-    Plants.remove(req.params.plant_id)
-        .then(() => {
-            res.status(200).json({ message: 'plant has been mowed' });
+router.delete('/:id', checkId, (req, res, next) => {
+    const { id } = req.params
+    Users.removeUser(id)
+        .then(user => {
+            res.json(user)
         })
-        .catch(next);
+        .catch(next)
 })
 
 module.exports = router;

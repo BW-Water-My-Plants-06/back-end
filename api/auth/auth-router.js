@@ -1,40 +1,36 @@
-const bcrypt = require('bcryptjs');
-const buildToken = require('./token-builder')
-const router = require('express').Router();
+const router = require('express').Router()
+const bcrypt = require('bcryptjs')
+const Auth = require('./auth-model')
+const tokenBuilder = require('./token-builder')
 
-const Users = require('../users/users-model.js');
+const {
+    checkBody,
+    checkBodyPhoneNumber,
+    validateUniqueUser,
+    checkUsernameExist
+} = require('./auth-middelware')
 
-router.post('/reqister', (req, res, next) => {
-    let user = req.body;
-
-    const rounds = 8;
-    const hash = bcrypt.hashSync(user.password, rounds);
-
-    user.password = hash
-
-    Users.addUser(user)
-        .then(saved => {
-            res.status(201).json({ message: `Great to have you, ${saved.username}` });
+router.post('/register', checkBodyPhoneNumber, validateUniqueUser, (req, res, next) => {
+    const { username, password, phone_number } = req.body
+    const hash = bcrypt.hashSync(password, 8)
+    Auth.addUser({ username, password: hash, phone_number })
+        .then(newUser => {
+            res.status(201).json(newUser)
         })
-        .catch(next);
-});
+        .catch(next)
+})
 
-router.post('/login', (req, res, next) => {
-    let { username, password } = req.body;
-
-    Users.findUserById({ username })
-        .then(([user]) => {
-            if (user && bcrypt.compareSync(password, user.password)) {
-                const token = buildToken(user)
-                res.status(200).json({
-                    message: `Welcome back ${user.username}!`,
-                    token
-                });
-            } else {
-                next({ status: 401, message: 'Invalid Credentials' });
-            }
+router.post('/login', checkBody, checkUsernameExist, (req, res, next) => {
+    if(bcrypt.compareSync(req.body.password, req.user.password)){
+        const token = tokenBuilder(req.user)
+        res.json({
+            message: `Welcome, ${req.user.username}`,
+            user_id: req.user.user_id,
+            token
         })
-        .catch(next);
-});
+    } else {
+        next({ stauts: 401, message: 'invalid credentials' })
+    }
+})
 
-module.exports = router;
+module.exports = router

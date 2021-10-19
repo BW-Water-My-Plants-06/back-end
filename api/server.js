@@ -2,16 +2,22 @@
 const express = require("express");
 const cors = require("cors");
 
+const server = express();
+
 const authRouter = require("./auth/auth-router.js");
 const usersRouter = require("./users/users-router.js");
-
-const server = express();
+const plantsRouter = require("./plants/plants-router.js");
 
 server.use(express.json());
 server.use(cors());
 
-server.use("/api/auth", authRouter);
-server.use("/api/users/plants", usersRouter);
+server.use("/auth", authRouter);
+server.use("/api/users", usersRouter);
+server.use("/api/plants", plantsRouter);
+
+server.get('/api', (req, res) => {
+    res.json(`Welcome to the app`)
+})
 
 server.use((err, req, res, next) => { // eslint-disable-line
     res.status(err.status || 500).json({
