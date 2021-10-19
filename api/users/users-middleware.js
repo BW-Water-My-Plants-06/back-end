@@ -8,7 +8,7 @@ const checkId = async (req, res, next) => {
 
 const checkBody = (req, res, next) => {
     const { username, password, phone_number } = req.body
-    !username || !password || !phone_number ? res.status(401).josn({
+    !username || !password || !phone_number ? res.status(401).json({
         message: 'Username, Phone Number, and Password are required' 
     }) : next()
 }

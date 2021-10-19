@@ -11,10 +11,10 @@
     "rollback": "npx knex migrate:rollback",
     "seed": "npx knex seed:run",
     "refresh": "npx knex migrate:down && npx knex migrate:up",
-    "migrateh": "heroku run knex migrate:latest -a water-my-plants-4-api",
-    "rollbackh": "heroku run knex migrate:rollback -a water-my-plants-4-api",
-    "databaseh": "heroku pg:psql -a water-my-plants-4-api",
-    "seedh": "heroku run knex seed:run -a water-my-plants-4-api",
+    "migrateh": "heroku run knex migrate:latest -a water-my-plants-2-electric",
+    "rollbackh": "heroku run knex migrate:rollback -a water-my-plants-2-electric",
+    "databaseh": "heroku pg:psql -a water-my-plants-2-electric",
+    "seedh": "heroku run knex seed:run -a water-my-plants-2-electric",
     "deploy": "git push heroku main"
   },
   "repository": {

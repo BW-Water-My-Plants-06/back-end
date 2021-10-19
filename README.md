@@ -1,19 +1,23 @@
 # back-end
 
-[register] POST -- http://localhost:3000/api/auth/register
+[register] POST -- https://water-my-plants-2-electric.herokuapp.com/auth/register
 
-[login] POST -- http://localhost:3000/api/auth/login
+[login] POST -- https://water-my-plants-2-electric.herokuapp.com/auth/login
 
 ---
 
-[getting-plants] GET -- http://localhost:3000/api/users/plants
+[getting-plants] GET -- https://water-my-plants-2-electric.herokuapp.com/api/plants
 
-[get-plant-by-id] GET -- http://localhost:3000/api/users/plants/:user_id
+[getting-plant-by-id] GET -- https://water-my-plants-2-electric.herokuapp.com/api/plants/:id
 
-[post-new-plant] POST -- http://localhost:3000/api/users/plants
+[get-users] GET -- https://water-my-plants-2-electric.herokuapp.com/api/users
 
-[edit-plant] PUT -- http://localhost:3000/api/users/plants/:plant_id
+[get-user-by-id] GET -- https://water-my-plants-2-electric.herokuapp.com/api/users/:id
 
-[delete-plant] DELETE -- http://localhost:3000/api/users/plants/:plant_id
+[post-new-plant] POST -- https://water-my-plants-2-electric.herokuapp.com/api/plants
+
+[edit-plant] PUT -- https://water-my-plants-2-electric.herokuapp.com/api/plants/:id
+
+[delete-plant] DELETE -- https://water-my-plants-2-electric.herokuapp.com/api/plants/:id
 
 Warrning still in progress
